@@ -51,18 +51,28 @@
         
         difficulty = Number(difficulty)
         var gamespeed = 0;
+        var totalLasers = 2;
         
         if (difficulty == 1){
               gamespeed = 50;
+            totalLasers = 3;
         }else{
             gamespeed = 200;
+            totalLasers = 10;
         }
             
         
 
+        var settingUp = true;
 
 
         function mainloop() {
+            if(settingUp){
+                for(var i = 0; i < totalLasers; i++){
+                    makeLasers()
+                }
+                settingUp = false;
+            }
             colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
             colorRect(playerXpos, playerYpos, PLAYER_SIZE, PLAYER_SIZE, 'red');
             colorRect(laserXpos, laserYpos, laser_SIZE, laser_SIZE, 'white');
@@ -70,7 +80,7 @@
             playerMove();
             lasermove();
             laserhit();
-
+            drawlaser();
         }
 
         function colorRect(x, y, w, h, c) {
@@ -119,6 +129,32 @@
 
         }
 
+        var lasers = [];
+        
+        function makeLasers(){
+            var laserSize = 30;
+            var laserXpos = Math.floor(Math.random()*(canvas.width - laserSize));
+            var laserYpos = 0;
+            var laserXspeed = Math.floor(Math.random()*(12 - 4)) + 4;
+            var laserYspeed = Math.floor(Math.random()*(12 - 4)) + 4;
+            
+            var laser = {
+                laserXpos: laserXpos,
+                laserYpos: laserYpos,
+                laserSize: laserSize,
+                laserXspeed: laserXspeed,
+                laserYspeed: laserYspeed 
+            }
+            
+            lasers.push(laser);
+            
+        }
+        
+        function drawlaser(){
+            lasers.forEach(function(laser,i,array){
+                colorRect(laser.laserXpos,laser.laserYpos,laser.laserSize,laser.laserSize,'white');
+            });
+        }
 
         function playerMove() {
             if (rightKeyPressed) {
