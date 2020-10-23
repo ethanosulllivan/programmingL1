@@ -12,7 +12,7 @@
             document.addEventListener('keydown', keyPressed);
             document.addEventListener('keyup', keyReleased);
 
-            setInterval(mainloop, 1000 / 50);
+            setInterval(mainloop, 1000 / gamespeed);
         }
 
 
@@ -40,6 +40,25 @@
         const DOWN_KEY = 87;
 
         var side = Math.floor(Math.random() * 4) + 1;
+        
+        var userName = '';
+        
+        while(userName == '' || userName == null){
+           userName =  prompt('what is your name');
+        }
+        
+        var difficulty = prompt('how difficult do you want the game','1')
+        
+        difficulty = Number(difficulty)
+        var gamespeed = 0;
+        
+        if (difficulty == 1){
+              gamespeed = 50;
+        }else{
+            gamespeed = 200;
+        }
+            
+        
 
 
 
