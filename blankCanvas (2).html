@@ -26,8 +26,8 @@
         var laserXpos = 0;
         var laserYpos = 0;
         const laser_SIZE = 20;
-        var laserXspeed = Math.floor(Math.random()*(6-3))+3;
-        var laserYspeed = Math.floor(Math.random()*(6-3))+3;
+        var laserXspeed = Math.floor(Math.random() * (6 - 3)) + 3;
+        var laserYspeed = Math.floor(Math.random() * (6 - 3)) + 3;
 
         var leftKeyPressed = false;
         var rightKeyPressed = false;
@@ -40,35 +40,35 @@
         const DOWN_KEY = 87;
 
         var side = Math.floor(Math.random() * 4) + 1;
-        
+
         var userName = '';
-        
-        while(userName == '' || userName == null){
-           userName =  prompt('what is your name');
+
+        while (userName == '' || userName == null) {
+            userName = prompt('what is your name');
         }
-        
-        var difficulty = prompt('how difficult do you want the game','1')
-        
+
+        var difficulty = prompt('how difficult do you want the game', '1')
+
         difficulty = Number(difficulty)
         var gamespeed = 0;
         var totalLasers = 2;
-        
-        if (difficulty == 1){
-              gamespeed = 50;
+
+        if (difficulty == 1) {
+            gamespeed = 50;
             totalLasers = 3;
-        }else{
+        } else {
             gamespeed = 200;
             totalLasers = 10;
         }
-            
-        
+
+
 
         var settingUp = true;
 
 
         function mainloop() {
-            if(settingUp){
-                for(var i = 0; i < totalLasers; i++){
+            if (settingUp) {
+                for (var i = 0; i < totalLasers; i++) {
                     makeLasers()
                 }
                 settingUp = false;
@@ -81,6 +81,8 @@
             lasermove();
             laserhit();
             drawlaser();
+            laserMove();
+            colorText('AHH',50,50,'30px Arial','red');
         }
 
         function colorRect(x, y, w, h, c) {
@@ -130,29 +132,35 @@
         }
 
         var lasers = [];
-        
-        function makeLasers(){
+
+        function makeLasers() {
             var laserSize = 30;
-            var laserXpos = Math.floor(Math.random()*(canvas.width - laserSize));
+            var laserXpos = Math.floor(Math.random() * (canvas.width - laserSize));
             var laserYpos = 0;
-            var laserXspeed = Math.floor(Math.random()*(12 - 4)) + 4;
-            var laserYspeed = Math.floor(Math.random()*(12 - 4)) + 4;
-            
+            var laserXspeed = Math.floor(Math.random() * (12 - 4)) + 4;
+            var laserYspeed = Math.floor(Math.random() * (12 - 4)) + 4;
+
             var laser = {
                 laserXpos: laserXpos,
                 laserYpos: laserYpos,
                 laserSize: laserSize,
                 laserXspeed: laserXspeed,
-                laserYspeed: laserYspeed 
+                laserYspeed: laserYspeed
             }
-            
+
             lasers.push(laser);
-            
+
         }
-        
-        function drawlaser(){
-            lasers.forEach(function(laser,i,array){
-                colorRect(laser.laserXpos,laser.laserYpos,laser.laserSize,laser.laserSize,'white');
+
+        function drawlaser() {
+            lasers.forEach(function(laser, i, array) {
+                colorRect(laser.laserXpos, laser.laserYpos, laser.laserSize, laser.laserSize, 'white');
+            });
+        }
+
+        function laserMove() {
+            lasers.forEach(function(laser, i, array) {
+                laser.laserYpos += laser.laserYspeed;
             });
         }
 
@@ -188,64 +196,74 @@
         }
 
         function lasermove() {
-            var rate = Math.random()*1;
-//            if (side == 1) {
-//                laserYpos = Math.floor(Math.random() * (canvas.width - laser_SIZE));
-//                laserXpos = 0;
-//                side += 0.1;
-//                laserXspeed = 5;
-//            }
-//            if (side == 2) {
-//                laserYpos = Math.floor(Math.random() * (canvas.width - laser_SIZE));
-//                laserXpos = canvas.width - laser_SIZE;
-//                side += 0.1;
-//                laserXspeed = -5;
-//            }
-//            if (side == 3) {
-//                laserXpos = Math.floor(Math.random() * (canvas.width - laser_SIZE));
-//                laserYpos = 0;
-//                side += 0.1;
-//                laserYspeed = 5;
-//            }
-//            if (side == 4) {
-//                laserXpos = Math.floor(Math.random() * (canvas.width - laser_SIZE));
-//                laserYpos = canvas.height - laser_SIZE;
-//                side += 10;
-//                laserYspeed = -5;
-//            }
-//            
-            laserXpos += laserXspeed;
-            laserYpos += laserYspeed;
-            
-            if (laserXpos < 0){
-                laserXspeed *= -1;
-                rate = Math.random()*1;
-                laserXspeed += rate;
-            }
-            if (laserXpos + laser_SIZE> canvas.width){
-                laserXspeed *= -1;
-                rate = Math.random()*1;
-                laserXspeed -= rate;
-            }
-            if (laserYpos < 0){
-                laserYspeed *= -1;
-                rate = Math.random()*1;
-                laserYspeed += rate;
-            }
-            if (laserYpos + laser_SIZE > canvas.height){
-                laserYspeed *= -1;
-                rate = Math.random()*1;
-                laserYspeed -= rate;
-            }
-        }//end function lasermove
-        
-        function laserhit(){
-            if (laserYpos + laser_SIZE > playerYpos && laserYpos < playerYpos + PLAYER_SIZE && laserXpos + laser_SIZE > playerXpos && laserXpos < playerXpos +PLAYER_SIZE){
-               playerXpos = (canvas.width / 2);
+            var rate = Math.random() * 1;
+            //            if (side == 1) {
+            //                laserYpos = Math.floor(Math.random() * (canvas.width - laser_SIZE));
+            //                laserXpos = 0;
+            //                side += 0.1;
+            //                laserXspeed = 5;
+            //            }
+            //            if (side == 2) {
+            //                laserYpos = Math.floor(Math.random() * (canvas.width - laser_SIZE));
+            //                laserXpos = canvas.width - laser_SIZE;
+            //                side += 0.1;
+            //                laserXspeed = -5;
+            //            }
+            //            if (side == 3) {
+            //                laserXpos = Math.floor(Math.random() * (canvas.width - laser_SIZE));
+            //                laserYpos = 0;
+            //                side += 0.1;
+            //                laserYspeed = 5;
+            //            }
+            //            if (side == 4) {
+            //                laserXpos = Math.floor(Math.random() * (canvas.width - laser_SIZE));
+            //                laserYpos = canvas.height - laser_SIZE;
+            //                side += 10;
+            //                laserYspeed = -5;
+            //            }
+            //            
+            //            laserXpos += laserXspeed;
+            //            laserYpos += laserYspeed;
+            //            
+            //            if (laserXpos < 0){
+            //                laserXspeed *= -1;
+            //                rate = Math.random()*1;
+            //                laserXspeed += rate;
+            //            }
+            //            if (laserXpos + laser_SIZE> canvas.width){
+            //                laserXspeed *= -1;
+            //                rate = Math.random()*1;
+            //                laserXspeed -= rate;
+            //            }
+            //            if (laserYpos < 0){
+            //                laserYspeed *= -1;
+            //                rate = Math.random()*1;
+            //                laserYspeed += rate;
+            //            }
+            //            if (laserYpos + laser_SIZE > canvas.height){
+            //                laserYspeed *= -1;
+            //                rate = Math.random()*1;
+            //                laserYspeed -= rate;
+            //            }
+        } //end function lasermove
+
+        function laserhit() {
+            if (laserYpos + laser_SIZE > playerYpos && laserYpos < playerYpos + PLAYER_SIZE && laserXpos + laser_SIZE > playerXpos && laserXpos < playerXpos + PLAYER_SIZE) {
+                playerXpos = (canvas.width / 2);
                 playerYpos = (canvas.height / 2);
-                
+
             }
-            
+
+
+
+
+        }
+
+        function colorText(msg, x, y, f, c) {
+            canvasContext.fillStyle = c;
+            canvasContext.font = f;
+            canvasContext.fillText(msg, x, y);
+
         }
 
     </script>
