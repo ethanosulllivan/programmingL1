@@ -50,39 +50,41 @@
 
         var difficulty = '';
         var pass = false;
-        
-        while(pass == false){
-            difficulty = prompt('how difficult do you want the game? 1,2,3.', '1')
-            
-            difficulty = Number(difficulty);
-            
-            if(difficulty == 1 || difficulty == 2 || difficulty == 3){
-               pass = true;
-            }      
-        }
-        
 
-   
+        while (pass == false) {
+            difficulty = prompt('how difficult do you want the game? 1,2,3.', '1')
+
+            difficulty = Number(difficulty);
+
+            if (difficulty == 1 || difficulty == 2 || difficulty == 3) {
+                pass = true;
+            }
+        }
+
+        //        var obama = new Image();
+        //        obama.src = 'images/obama.png';
+
+
         var max = 0;
         var min = 0
         var totalLasers = 2;
 
         if (difficulty == 1) {
-            max = 8;
+            max = 10;
             min = 2;
             totalLasers = 3;
         }
-        
-         if (difficulty == 2) {
-            max = 14;
+
+        if (difficulty == 2) {
+            max = 12;
             min = 4;
             totalLasers = 4;
         }
         if (difficulty == 3) {
-            max = 20;
+            max = 16;
             min = 8;
             totalLasers = 5;
-        } 
+        }
 
 
 
@@ -90,8 +92,8 @@
         var gameRun = true;
 
         function mainloop() {
-            if(gameRun){
-               
+            if (gameRun) {
+
                 if (settingUp) {
                     for (var i = 0; i < totalLasers; i++) {
                         makeLasers()
@@ -100,23 +102,27 @@
                 }
                 colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
                 colorRect(playerXpos, playerYpos, PLAYER_SIZE, PLAYER_SIZE, 'red');
-                colorRect(laserXpos, laserYpos, laser_SIZE, laser_SIZE, 'white');
+
 
                 playerMove();
                 drawlaser();
                 laserMove();
-                colorText(time,50,50,'30px Arial','red');
+                colorText(time, 50, 50, '30px Arial', 'red');
             } else {
                 colorRect(0, 0, canvas.width, canvas.height, 'red'); // bg
+                colorText('you lose', 50, 200, '50px Arial', 'black');
+                colorText('your score was ' + time, 50, 400, '50px Arial', 'black');
             }
         }
 
         var time = 0;
-        
-        function counter(){
-            time++;
+
+        function counter() {
+            if(gameRun){
+                time++;
+            }
         }
-        
+
         function colorRect(x, y, w, h, c) {
             canvasContext.fillStyle = c;
             canvasContext.fillRect(x, y, w, h);
@@ -186,6 +192,7 @@
 
         function drawlaser() {
             lasers.forEach(function(laser, i, array) {
+                //                drawImg(obama, laser.laserXpos, laser.laserYpos, laser.laser_SIZE, laser.laser_SIZE);
                 colorRect(laser.laserXpos, laser.laserYpos, laser.laserSize, laser.laserSize, 'white');
             });
         }
@@ -194,36 +201,26 @@
             lasers.forEach(function(laser, i, array) {
                 laser.laserYpos += laser.laserYspeed;
                 laser.laserXpos += laser.laserXspeed;
-                
-                if(laser.laserXpos + laser.laserSize > canvas.width){
-                   laser.laserXspeed *= -1;
+
+                if (laser.laserXpos + laser.laserSize > canvas.width) {
+                    laser.laserXspeed *= -1;
                 }
-                if(laser.laserXpos < 0){
-                   laser.laserXspeed *= -1;
+                if (laser.laserXpos < 0) {
+                    laser.laserXspeed *= -1;
                 }
-                if(laser.laserYpos + laser.laserSize > canvas.height){
+                if (laser.laserYpos + laser.laserSize > canvas.height) {
                     laser.laserYspeed *= -1;
                 }
-                if(laser.laserYpos < 0){
+                if (laser.laserYpos < 0) {
                     laser.laserYspeed *= -1;
                 }
-                
-                if(playerXpos + PLAYER_SIZE > laser.laserXpos && playerXpos < laser.laserXpos + laser.laserSize && playerYpos + PLAYER_SIZE > laser.laserYpos && playerYpos < laser.laserYpos + laser.laserSize){
-                   gameRun = false;
+
+                if (playerXpos + PLAYER_SIZE > laser.laserXpos && playerXpos < laser.laserXpos + laser.laserSize && playerYpos + PLAYER_SIZE > laser.laserYpos && playerYpos < laser.laserYpos + laser.laserSize) {
+                    gameRun = false;
                 }
-                
-//                if (laserYpos + laser_SIZE > playerYpos && laserYpos < playerYpos + PLAYER_SIZE && laserXpos + laser_SIZE > playerXpos && laserXpos < playerXpos + PLAYER_SIZE) {
-//                playerXpos = (canvas.width / 2);
-//                playerYpos = (canvas.height / 2);
-//                }
-//                
-//                if (laserYpos + laser_SIZE > playerYpos && laserYpos < playerYpos + PLAYER_SIZE && laserXpos + laser_SIZE > playerXpos && laserXpos < playerXpos + PLAYER_SIZE) {
-//                playerXpos = (canvas.width / 2);
-//                playerYpos = (canvas.height / 2);
-//                }
-                
+
             });
-            
+
         }
 
         function playerMove() {
@@ -257,57 +254,6 @@
             }
         }
 
-//        function lasermove() {
-//            var rate = Math.random() * 1;
-            //            if (side == 1) {
-            //                laserYpos = Math.floor(Math.random() * (canvas.width - laser_SIZE));
-            //                laserXpos = 0;
-            //                side += 0.1;
-            //                laserXspeed = 5;
-            //            }
-            //            if (side == 2) {
-            //                laserYpos = Math.floor(Math.random() * (canvas.width - laser_SIZE));
-            //                laserXpos = canvas.width - laser_SIZE;
-            //                side += 0.1;
-            //                laserXspeed = -5;
-            //            }
-            //            if (side == 3) {
-            //                laserXpos = Math.floor(Math.random() * (canvas.width - laser_SIZE));
-            //                laserYpos = 0;
-            //                side += 0.1;
-            //                laserYspeed = 5;
-            //            }
-            //            if (side == 4) {
-            //                laserXpos = Math.floor(Math.random() * (canvas.width - laser_SIZE));
-            //                laserYpos = canvas.height - laser_SIZE;
-            //                side += 10;
-            //                laserYspeed = -5;
-            //            }
-            //            
-            //            laserXpos += laserXspeed;
-            //            laserYpos += laserYspeed;
-            //            
-            //            if (laserXpos < 0){
-            //                laserXspeed *= -1;
-            //                rate = Math.random()*1;
-            //                laserXspeed += rate;
-            //            }
-            //            if (laserXpos + laser_SIZE> canvas.width){
-            //                laserXspeed *= -1;
-            //                rate = Math.random()*1;
-            //                laserXspeed -= rate;
-            //            }
-            //            if (laserYpos < 0){
-            //                laserYspeed *= -1;
-            //                rate = Math.random()*1;
-            //                laserYspeed += rate;
-            //            }
-            //            if (laserYpos + laser_SIZE > canvas.height){
-            //                laserYspeed *= -1;
-            //                rate = Math.random()*1;
-            //                laserYspeed -= rate;
-            //            }
-        //end function lasermove
 
         function colorText(msg, x, y, f, c) {
             canvasContext.fillStyle = c;
@@ -315,6 +261,9 @@
             canvasContext.fillText(msg, x, y);
 
         }
+        //        function drawImg(src,x,y,w,h){
+        //            canvasContext.drawImage(src,x,y,w,h)
+        //        }
 
     </script>
 </body>
